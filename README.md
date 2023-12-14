@@ -15,4 +15,4 @@ npm install
 npm run android
 ```
 
-Before running the app, put you IP in the following files: ```Chat.js```, ```signIn.js```, ```signUp.js``` and ```SocketProvider.js```
+Before running the app, put you IP in the following files: ```Chat.js```, ```signIn.js```, ```signUp.js```, ```SocketProvider.js``` and create an env file for MongoDB in server directory.
