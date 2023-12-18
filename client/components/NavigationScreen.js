@@ -14,7 +14,9 @@ const NavigationScreen = () => {
     const isAuthenticated = state && state.token !== "" && state.user !==null;
 
     return(
-        <Stack.Navigator>
+        <Stack.Navigator
+            screenOptions={{headerShown:false}}
+        >
             {isAuthenticated ? 
             (
                 <Stack.Screen name='AuthenticatedScreens' component={AuthenticatedScreens} />

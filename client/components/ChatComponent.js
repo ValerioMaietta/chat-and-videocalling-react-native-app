@@ -14,6 +14,7 @@ const ChatComponent = ({item}) => {
   }, []);
 
   const handleNavigation = () => {
+    console.log(item.roomName,item.id);
     navigation.navigate('Messaging', {
       id: item.id,
       name: item.roomName, //name del gruppo

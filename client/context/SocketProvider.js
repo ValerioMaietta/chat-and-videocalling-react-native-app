@@ -40,7 +40,7 @@ export const SocketProvider = ({
     }
   }, [userId]);
 
-  const socket = SocketIOClient('http://<insert_here_your_ip_address>:3500', {
+  const socket = SocketIOClient('http://<put_your_IP_address_here>:3500', {
     transports: ['websocket'],
     query: {
       callerId: userId,
@@ -149,17 +149,11 @@ export const SocketProvider = ({
               minFrameRate: 30,
             },
             facingMode: isFront ? 'user' : 'environment', //user è la fotocamera anteriore, enviroment posteriore
-            //optional: videoSourceId ? [{sourceId: videoSourceId}] : [],
           },
         })
         .then(stream => {
           setlocalStream(stream);
-
-          // setup stream listening
           peerConnection.current.addStream(stream);
-        })
-        .catch(error => {
-          // Log error
         });
     });
 
@@ -212,8 +206,7 @@ export const SocketProvider = ({
   async function processCall() {
     const sessionDescription = await peerConnection.current.createOffer();
     await peerConnection.current.setLocalDescription(sessionDescription);
-    console.log('sono in setLocalDescriptions');
-    sendCall({
+    socket.emit('call', {
       calleeId: otherUserId.current,
       rtcMessage: sessionDescription,
     });
@@ -225,21 +218,13 @@ export const SocketProvider = ({
     peerConnection.current.setRemoteDescription(
       new RTCSessionDescription(remoteRTCMessage.current),
     );
-    console.log('sono in setRemoteDescriptions');
+    console.log(remoteRTCMessage.current);
     const sessionDescription = await peerConnection.current.createAnswer();
     await peerConnection.current.setLocalDescription(sessionDescription);
-    answerCall({
+    socket.emit('answerCall', {
       callerId: otherUserId.current,
       rtcMessage: sessionDescription,
     });
-  }
-
-  function answerCall(data) {
-    socket.emit('answerCall', data);
-  }
-
-  function sendCall(data) {
-    socket.emit('call', data);
   }
 
   function switchCamera() {

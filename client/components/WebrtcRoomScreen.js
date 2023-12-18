@@ -1,15 +1,5 @@
 import {
-    Alert,
-    Button,
-    ImageBackground,
-    Platform,
-    KeyboardAvoidingView,
-    TouchableWithoutFeedback,
-    Keyboard,
     View,
-    TextInput,
-    Text,
-    TouchableOpacity,
   } from 'react-native';
 import {
   RTCView,

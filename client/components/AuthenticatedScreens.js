@@ -1,5 +1,3 @@
-// AuthenticatedScreens.js
-
 import React, {useContext} from 'react';
 import {SocketProvider} from '../context/SocketProvider';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
@@ -16,7 +14,6 @@ const Stack = createNativeStackNavigator();
 const AuthenticatedScreens = () => {
   const [state] = useContext(AuthContext);
   const userId = state.userId;
-  //console.log("in authenticated Screen: ", userId);
 
   const navigation = useNavigation();
 
@@ -38,7 +35,10 @@ const AuthenticatedScreens = () => {
       onNewCall={handleNewCall}
       onEndCall={handleEndCall}
       onIncomingCall={handleIncomingCall}>
-      <Stack.Navigator initialRouteName="Chat">
+      <Stack.Navigator 
+      initialRouteName="Chat"
+      screenOptions={{headerShown:false}}
+      >
         <Stack.Screen name="Chat" component={Chat} />
         <Stack.Screen name="Messaging" component={Messaging} />
         <Stack.Screen

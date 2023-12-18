@@ -27,11 +27,12 @@ module.exports.initIO = (httpServer) => {
       socket.join(roomName);
       //aggiunge il nuovo gruppo all'array della chat
       chatRooms.unshift({ id: generateID(), roomName, messages: [] });
-      socket.emit('roomsList', chatRooms);
+      console.log(chatRooms);
+      IO.emit('roomsList', chatRooms);
     });
 
     socket.on('disconnect', () => {
-      socket.disconnect();
+      //socket.disconnect();
       console.log('A user disconnected');
     });
 
@@ -39,13 +40,13 @@ module.exports.initIO = (httpServer) => {
       //Filtra l'array in base all'id
       let result = chatRooms.filter((room) => room.id == id);
       //Invia i messaggi all'app
-      socket.emit('foundRoom', result[0].messages);
+      IO.emit('foundRoom', result[0].messages);
     });
 
     socket.on('newMessage', (data) => {
       const { room_id, message, user, timestamp } = data;
-
       //trova la stanza dove è stato inviato il messaggio
+
       let result = chatRooms.filter((room) => room.id == room_id);
 
       //crea la struttura dati per i messaggi
@@ -56,13 +57,14 @@ module.exports.initIO = (httpServer) => {
         time: `${timestamp.hour}:${timestamp.mins}`,
       };
       //modifica le chatrooms
-      socket.to(result[0].name).emit('roomMessage', newMessage);
+      IO.to(result[0].roomName).emit('roomMessage', newMessage);
       result[0].messages.push(newMessage);
 
-      socket.emit('roomsList', chatRooms);
-      socket.emit('foundRoom', result[0].messages);
+      IO.emit('roomsList', chatRooms);
+      IO.emit('foundRoom', result[0].messages);
     });
 
+    
     //con socket.on, passiamo due parametri: il primo è l'evento che stiamo ascoltando
     //in questo caso, call, il secondo un riferimento alla funzione che vogliamo creare.
     socket.on('call', (data) => {

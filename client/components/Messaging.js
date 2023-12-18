@@ -4,7 +4,6 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import {useSocket} from '../context/SocketProvider';
 import MessageComponent from './MessageComponent';
 import {styles} from '../utils/styles';
-import Icon from 'react-native-vector-icons/MaterialIcons';
 
 const Messaging = ({route, navigation}) => {
   const context = useSocket();
@@ -17,6 +16,8 @@ const Messaging = ({route, navigation}) => {
   //prende i parametri i e name
   const {name, id} = route.params;
 
+
+  
   const getUsername = async () => {
     try {
       const value = await AsyncStorage.getItem('auth-rn');
@@ -29,7 +30,6 @@ const Messaging = ({route, navigation}) => {
     }
   };
 
-  //setta il titolo nella chat di gruppo ; esegue solo quando viene montato inizialmente
   useLayoutEffect(() => {
     navigation.setOptions({title: name});
     getUsername();
@@ -71,6 +71,7 @@ const Messaging = ({route, navigation}) => {
 
     socket.on('foundRoom', onRoomFound);
 
+    
     return () => {
       socket.off('foundRoom', onRoomFound);
     };
@@ -96,6 +97,7 @@ const Messaging = ({route, navigation}) => {
       user,
       timestamp: {hour, mins},
     });
+  
   };
 
   return (

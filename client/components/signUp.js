@@ -27,7 +27,7 @@ const SignUp = ({navigation}) => {
   const handleRegister = async () => {
     if (username.trim() && email.trim() && password.trim()) {
       const resp = await axios.post(
-        'http://<insert_here_your_ip_address>:3500/api/signup',
+        'http://<put_your_IP_address_here>:3500/api/signup',
         {
           username,
           email,

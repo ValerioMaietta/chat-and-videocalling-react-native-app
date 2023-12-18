@@ -33,7 +33,7 @@ const SignIn = ({navigation}) => {
       console.log(username);
       console.log(password);
       const resp = await axios.post(
-        'http://<insert_here_your_ip_address>:3500/api/signin',
+        'http://<put_your_IP_address_here>:3500/api/signin',
         {
           username,
           password,
